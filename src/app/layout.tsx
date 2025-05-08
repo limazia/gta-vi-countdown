@@ -1,8 +1,10 @@
 import "./globals.css";
 
+import { type Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 
-import { constructMetadata } from "@/lib/construct-metadata";
+import { getUrl } from "@/utils/url";
+
 import { ClientOnly } from "@/components/client-only";
 
 const geistSans = Geist({
@@ -15,9 +17,38 @@ const geistMono = Geist_Mono({
   subsets: ["latin"],
 });
 
-export const metadata = constructMetadata({
-  title: "GTA VI Countdown",
-});
+export const metadata: Metadata = {
+  title: {
+    default: "GTA VI Countdown",
+    template: `%s - GTA VI Countdown`,
+  },
+  description:
+    "A simple and stylish countdown to the release of Grand Theft Auto VI. Let the wait begin!",
+  openGraph: {
+    title: "GTA VI Countdown",
+    description:
+      "A simple and stylish countdown to the release of Grand Theft Auto VI. Let the wait begin!",
+    images: [
+      {
+        url: "/opengraph-image.jpg",
+        alt: "GTA VI Countdown",
+      },
+    ],
+  },
+  twitter: {
+    card: "summary_large_image",
+    title: "GTA VI Countdown",
+    description:
+      "A simple and stylish countdown to the release of Grand Theft Auto VI. Let the wait begin!",
+    images: [{ url: "/twitter-image.jpg" }],
+  },
+  icons: "/favicon.ico",
+  metadataBase: new URL(getUrl("")),
+  robots: {
+    index: true,
+    follow: true,
+  },
+};
 
 export default function RootLayout({
   children,
