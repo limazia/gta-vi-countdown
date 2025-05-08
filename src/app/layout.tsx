@@ -16,10 +16,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = constructMetadata({
-  title: {
-    default: "GTA VI Countdown",
-    template: `%s - GTA VI Countdown`,
-  },
+  title: "GTA VI Countdown",
 });
 
 export default function RootLayout({
