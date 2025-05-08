@@ -30,7 +30,14 @@ export function constructMetadata({
   noIndex?: boolean;
 } = {}): Metadata {
   return {
-    title,
+    title: {
+      default: typeof title === "string" ? title : title.default,
+      template:
+        typeof title === "string"
+          ? title
+          : title.template ?? `%s - ${title.default}`,
+      absolute: typeof title === "string" ? undefined : title.absolute,
+    },
     description,
     openGraph: {
       title,
