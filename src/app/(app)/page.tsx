@@ -5,10 +5,9 @@ import { format, parseISO } from "date-fns";
 import { enUS } from "date-fns/locale";
 import Image from "next/image";
 
-import { TARGET_DATE, calculateTimePercentage } from "@/utils/date";
+import { START_DATE, TARGET_DATE, calculateTimePercentage } from "@/utils/date";
 
 export default function Home() {
-  const START_DATE = "2025-02-05T00:00:00.000Z";
   const [percent, setPercent] = useState(0);
 
   const formattedTargetDate = format(parseISO(TARGET_DATE), "MMMM d, yyyy", {
