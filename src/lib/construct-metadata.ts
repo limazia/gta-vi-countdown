@@ -22,13 +22,21 @@ export function constructMetadata({
   image = "/opengraph-image.jpg",
   icons = "/favicon.ico",
   noIndex = false,
+  useOgApi = false,
 }: {
   title?: string | TitleTemplate;
   description?: string;
   image?: string;
   icons?: string;
   noIndex?: boolean;
+  useOgApi?: boolean;
 } = {}): Metadata {
+  const ogApiUrl = `/api/og?cacheBuster=${
+    new Date().toISOString().split("T")[0]
+  }`;
+
+  const finalImageUrl = useOgApi ? ogApiUrl : image;
+
   return {
     title: {
       default: typeof title === "string" ? title : title.default,
@@ -44,8 +52,10 @@ export function constructMetadata({
       description,
       images: [
         {
-          url: image,
+          url: finalImageUrl,
           alt: typeof title === "string" ? title : undefined,
+          width: 1200,
+          height: 630,
         },
       ],
     },
@@ -53,7 +63,7 @@ export function constructMetadata({
       card: "summary_large_image",
       title,
       description,
-      images: [{ url: image }],
+      images: [{ url: finalImageUrl }],
     },
     icons,
     metadataBase: new URL(getUrl("")),
