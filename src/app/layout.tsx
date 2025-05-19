@@ -1,4 +1,3 @@
-// app/layout.tsx - Usando a nova opção de OG API
 import "./globals.css";
 
 import { Geist, Geist_Mono } from "next/font/google";
@@ -32,10 +31,6 @@ export default function RootLayout({
         className={`${geistSans.variable} ${geistMono.variable} antialiased`}
       >
         <ClientOnly>{children}</ClientOnly>
-
-        <pre className="text-white z-10">
-          {JSON.stringify(metadata, null, 2)}
-        </pre>
       </body>
     </html>
   );
