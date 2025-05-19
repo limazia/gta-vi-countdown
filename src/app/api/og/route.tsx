@@ -1,5 +1,4 @@
 import { ImageResponse } from "next/og";
-import { NextRequest } from "next/server";
 
 import { START_DATE, TARGET_DATE } from "@/utils/date";
 
@@ -25,7 +24,7 @@ function calculateProgress() {
   return Math.round(progress);
 }
 
-export async function GET(request: NextRequest) {
+export async function GET() {
   try {
     const progress = calculateProgress();
     const daysLeft = calculateDaysRemaining();
@@ -127,7 +126,7 @@ export async function GET(request: NextRequest) {
         height: 630,
       }
     );
-  } catch (e) {
+  } catch {
     return new Response("Failed to generate OG image", {
       status: 500,
     });
@@ -135,10 +134,11 @@ export async function GET(request: NextRequest) {
 }
 
 function calculateDaysRemaining() {
-  const releaseDate = new Date("2025-10-15T00:00:00.000Z");
+  const releaseDate = new Date(TARGET_DATE);
   const today = new Date();
   const daysLeft = Math.ceil(
     (releaseDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
   );
+  
   return Math.max(0, daysLeft);
 }
