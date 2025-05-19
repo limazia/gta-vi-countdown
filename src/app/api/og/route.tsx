@@ -1,33 +1,19 @@
 import { ImageResponse } from "next/og";
 
-import { START_DATE, TARGET_DATE } from "@/utils/date";
+import {
+  calculateRemainingDays,
+  calculateTimePercentage,
+  START_DATE,
+  TARGET_DATE,
+} from "@/utils/date";
 
 export const runtime = "edge";
 export const revalidate = 86400; // 24 horas em segundos
 
-function calculateProgress() {
-  const startDate = new Date(START_DATE);
-  const releaseDate = new Date(TARGET_DATE);
-  const today = new Date();
-
-  // Cálculo do progresso
-  const totalDays = Math.floor(
-    (releaseDate.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-  );
-  const daysElapsed = Math.floor(
-    (today.getTime() - startDate.getTime()) / (1000 * 60 * 60 * 24)
-  );
-
-  // Garantir que o progresso esteja entre 0 e 100
-  const progress = Math.min(Math.max((daysElapsed / totalDays) * 100, 0), 100);
-
-  return Math.round(progress);
-}
-
 export async function GET() {
   try {
-    const progress = calculateProgress();
-    const daysLeft = calculateDaysRemaining();
+    const progress = calculateTimePercentage(START_DATE, TARGET_DATE);
+    const daysLeft = calculateRemainingDays(TARGET_DATE);
 
     return new ImageResponse(
       (
@@ -106,7 +92,7 @@ export async function GET() {
               fontWeight: "bold",
             }}
           >
-            {progress}% completed
+            {progress.toFixed(2)}% completed
           </div>
 
           <div
@@ -131,14 +117,4 @@ export async function GET() {
       status: 500,
     });
   }
-}
-
-function calculateDaysRemaining() {
-  const releaseDate = new Date(TARGET_DATE);
-  const today = new Date();
-  const daysLeft = Math.ceil(
-    (releaseDate.getTime() - today.getTime()) / (1000 * 60 * 60 * 24)
-  );
-  
-  return Math.max(0, daysLeft);
 }
