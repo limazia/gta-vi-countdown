@@ -1,8 +1,7 @@
-// utils/dateUtils.ts
 import { differenceInSeconds, parseISO } from "date-fns";
 
-// Data alvo configurável - 26 de maio de 2026
-export const TARGET_DATE: string = "2026-05-26T00:00:00.000Z"; // Formato UTC ISO
+export const START_DATE: string = "2025-02-05T00:00:00.000Z";
+export const TARGET_DATE: string = "2026-05-26T00:00:00.000Z";
 
 /**
  * Calcula a porcentagem de tempo passado desde o início até a data alvo
