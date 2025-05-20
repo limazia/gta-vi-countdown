@@ -1,0 +1,32 @@
+name: Daily OG Image Update
+
+on:
+  schedule:
+    # Executa todos os dias às 00:00 UTC
+    - cron: '0 0 * * *'
+  # Permite executar o workflow manualmente pela interface do GitHub
+  workflow_dispatch:
+
+jobs:
+  update-og:
+    runs-on: ubuntu-latest
+    
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v3
+      
+      - name: Setup Node.js
+        uses: actions/setup-node@v3
+        with:
+          node-version: '18'
+          cache: 'npm'
+      
+      - name: Install dependencies
+        run: npm ci
+      
+      - name: Trigger OG revalidation
+        run: |
+          # Dispara a revalidação na API do Next.js
+          curl -X POST \
+            -H "Authorization: Bearer ${{ secrets.REVALIDATE_TOKEN }}" \
+            "${{ secrets.NEXT_PUBLIC_BASE_URL }}/api/revalidate?path=/api/og&secret=${{ secrets.REVALIDATE_SECRET }}"
